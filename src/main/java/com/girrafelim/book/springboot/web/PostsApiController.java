@@ -7,15 +7,17 @@ import com.girrafelim.book.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
+
 @RequiredArgsConstructor
 @RestController
 public class PostsApiController {
 
     private final PostsService postsService;
 
-    @PostMapping("/api/v1/posts")
-    public Long save(@RequestBody PostsSaveRequestDto requestDto){
-        return postsService.save(requestDto);
+    @PostMapping(value = "/api/v1/posts")
+    public Long save(@RequestBody PostsSaveRequestDto postsSaveRequestDto){
+        return postsService.save(postsSaveRequestDto);
     }
 
     @PutMapping("/api/v1/posts/{id}")
@@ -33,4 +35,5 @@ public class PostsApiController {
         postsService.delete(id);
         return id;
     }
+
 }
