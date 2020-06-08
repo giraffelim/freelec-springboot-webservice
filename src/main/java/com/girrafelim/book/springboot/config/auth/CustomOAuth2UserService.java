@@ -34,21 +34,27 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId(); //현재 로그인 진행중인 서비스를 구분하는 코드, 어떠한 소셜 로그인인지 구분하기 위해 사용
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName(); // PK와 같은 의미 (로그인 진행시 키가되는 필드값)
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
+                .getUserInfoEndpoint().getUserNameAttributeName();
 
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes()); // OAuth2UserService를 통해 가져온 OAuth2User의 Attribute를 담을 클래스
+        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(attributes);
-        httpSession.setAttribute("user", new SessionUser(user)); // SessionUser = 세션에 사용자 정보를 담당하기 위한 Dto 클래스
+        httpSession.setAttribute("user", new SessionUser(user));
 
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
+                attributes.getAttributes(),
+                attributes.getNameAttributeKey());
     }
 
-    private User saveOrUpdate(OAuthAttributes attributes){
+
+    private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.findByEmail(attributes.getEmail())
-                                                                    .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
-                                                                    .orElse(attributes.toEntity());
+                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+                .orElse(attributes.toEntity());
+
         return userRepository.save(user);
     }
 
