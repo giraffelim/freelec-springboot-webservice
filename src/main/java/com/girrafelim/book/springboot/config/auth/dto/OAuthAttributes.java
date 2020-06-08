@@ -1,4 +1,4 @@
-package com.girrafelim.book.springboot.web.dto;
+package com.girrafelim.book.springboot.config.auth.dto;
 
 import com.girrafelim.book.springboot.domain.user.Role;
 import com.girrafelim.book.springboot.domain.user.User;

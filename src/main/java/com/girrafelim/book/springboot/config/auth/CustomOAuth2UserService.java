@@ -3,8 +3,8 @@ package com.girrafelim.book.springboot.config.auth;
 
 import com.girrafelim.book.springboot.domain.user.User;
 import com.girrafelim.book.springboot.domain.user.UserRepository;
-import com.girrafelim.book.springboot.web.dto.OAuthAttributes;
-import com.girrafelim.book.springboot.web.dto.SessionUser;
+import com.girrafelim.book.springboot.config.auth.dto.OAuthAttributes;
+import com.girrafelim.book.springboot.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
